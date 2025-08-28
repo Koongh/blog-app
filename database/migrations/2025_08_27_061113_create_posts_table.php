@@ -9,6 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    protected $fillable = [
+        'user_id',
+        'category_id',
+        'title',
+        'content',
+    ];
+    
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {

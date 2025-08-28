@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -31,9 +32,15 @@ Route::prefix('v1')->group(function(){
     Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail']);
     Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail']);
     Route::post('/refresh');
+
+    Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+        Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
+    });
     
 
     Route::middleware('auth:sanctum')->group(function(){
+        Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+        
         Route::prefix('posts')->group(function(){
             Route::get("/");
             Route::post("/");
