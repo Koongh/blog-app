@@ -110,17 +110,3 @@ Blog App adalah aplikasi blog sederhana yang dibangun dengan Laravel. Aplikasi i
 
 * **Kategori:** Hanya admin yang bisa membuat atau mengubah kategori.
 * **Post:** Saat pengguna membuat post baru, sistem akan otomatis mengirim email notifikasi ke admin atau subscriber melalui queue.
-
-## Pengujian
-
-```bash
-php artisan test
-```
-
-## Kontribusi
-
-Fork repositori → buat cabang baru → commit → push → buat pull request.
-
-## Lisensi
-
-MIT License - lihat [LICENSE](LICENSE).
