@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,23 +21,33 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/register');
-Route::post('/login');
-Route::post('/refresh');
-Route::middleware('auth:sanctum')->group(function(){
-    Route::prefix('posts')->group(function(){
-        Route::get("/");
-        Route::post("/");
-        Route::get("/{post}");
-        Route::put("/{post}");
-        Route::delete("/{post}");
-        Route::get("/{post}/bookmarks");
+Route::prefix('v1')->group(function(){
+    Route::get("/version", function(){
+        return response()->json(['message'=> '1.0.0']);
     });
 
-    Route::prefix('users')->group(function(){
-        Route::get('/');
-        Route::get('/{user}');
-        Route::get("/{user}/posts");
-        Route::put("/{user}");
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail']);
+    Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail']);
+    Route::post('/refresh');
+    
+
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::prefix('posts')->group(function(){
+            Route::get("/");
+            Route::post("/");
+            Route::get("/{post}");
+            Route::put("/{post}");
+            Route::delete("/{post}");
+            Route::get("/{post}/bookmarks");
+        });
+
+        Route::prefix('users')->group(function(){
+            Route::get('/');
+            Route::get('/{user}');
+            Route::get("/{user}/posts");
+            Route::put("/{user}");
+        });
     });
 });
