@@ -61,4 +61,16 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify((new \App\Notifications\QueueVerifyEmail)->delay(now()->addSeconds(1)));
     }
+
+    public function subscriptions()
+    {
+        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'subscribed_to_id')
+                    ->withTimestamps();
+    }
+
+    public function subscribers()
+    {
+        return $this->belongsToMany(User::class, 'subscriptions', 'subscribed_to_id', 'subscriber_id')
+                    ->withTimestamps();
+    }
 }
